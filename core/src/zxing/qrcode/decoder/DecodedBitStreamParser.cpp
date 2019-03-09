@@ -62,42 +62,42 @@ void DecodedBitStreamParser::append(std::string &result,
                                     const char *bufIn,
                                     size_t nIn,
                                     const char *src) {
-#ifndef NO_ICONV
-  if (nIn == 0) {
-    return;
-  }
+// #ifndef NO_ICONV
+//   if (nIn == 0) {
+//     return;
+//   }
 
-  iconv_t cd = iconv_open(StringUtils::UTF8, src);
-  if (cd == (iconv_t)-1) {
-    result.append((const char *)bufIn, nIn);
-    return;
-  }
+//   iconv_t cd = iconv_open(StringUtils::UTF8, src);
+//   if (cd == (iconv_t)-1) {
+//     result.append((const char *)bufIn, nIn);
+//     return;
+//   }
 
-  const int maxOut = 4 * nIn + 1;
-  char* bufOut = new char[maxOut];
+//   const int maxOut = 4 * nIn + 1;
+//   char* bufOut = new char[maxOut];
 
-  ICONV_CONST char *fromPtr = (ICONV_CONST char *)bufIn;
-  size_t nFrom = nIn;
-  char *toPtr = (char *)bufOut;
-  size_t nTo = maxOut;
+//   ICONV_CONST char *fromPtr = (ICONV_CONST char *)bufIn;
+//   size_t nFrom = nIn;
+//   char *toPtr = (char *)bufOut;
+//   size_t nTo = maxOut;
 
-  while (nFrom > 0) {
-    size_t oneway = iconv(cd, &fromPtr, &nFrom, &toPtr, &nTo);
-    if (oneway == (size_t)(-1)) {
-      iconv_close(cd);
-      delete[] bufOut;
-      throw ReaderException("error converting characters");
-    }
-  }
-  iconv_close(cd);
+//   while (nFrom > 0) {
+//     size_t oneway = iconv(cd, &fromPtr, &nFrom, &toPtr, &nTo);
+//     if (oneway == (size_t)(-1)) {
+//       iconv_close(cd);
+//       delete[] bufOut;
+//       throw ReaderException("error converting characters");
+//     }
+//   }
+//   iconv_close(cd);
 
-  int nResult = maxOut - nTo;
-  bufOut[nResult] = '\0';
-  result.append((const char *)bufOut);
-  delete[] bufOut;
-#else
+//   int nResult = maxOut - nTo;
+//   bufOut[nResult] = '\0';
+//   result.append((const char *)bufOut);
+//   delete[] bufOut;
+// #else
   result.append((const char *)bufIn, nIn);
-#endif
+// #endif
 }
 
 void DecodedBitStreamParser::decodeHanziSegment(Ref<BitSource> bits_,

@@ -21,7 +21,7 @@
 
 #include <zxing/aztec/decoder/Decoder.h>
 #ifndef NO_ICONV
-#include <iconv.h>
+// #include <iconv.h>
 #endif
 #include <iostream>
 #include <zxing/FormatException.h>
@@ -42,22 +42,22 @@ using std::string;
 
 namespace {
   void add(string& result, char character) {
-#ifndef NO_ICONV
-    char character2 = character & 0xff;
-    char s[] =  {character2};
-    char* ss = s;
-    size_t sl = sizeof(s);
-    char d[4];
-    char* ds = d;
-    size_t dl = sizeof(d);
-    iconv_t ic = iconv_open("UTF-8", "ISO-8859-1");
-    iconv(ic, &ss, &sl, &ds, &dl);
-    iconv_close(ic);
-    d[sizeof(d)-dl] = 0;
-    result.append(d);
-#else
+// #ifndef NO_ICONV
+//     char character2 = character & 0xff;
+//     char s[] =  {character2};
+//     char* ss = s;
+//     size_t sl = sizeof(s);
+//     char d[4];
+//     char* ds = d;
+//     size_t dl = sizeof(d);
+//     iconv_t ic = iconv_open("UTF-8", "ISO-8859-1");
+//     iconv(ic, &ss, &sl, &ds, &dl);
+//     iconv_close(ic);
+//     d[sizeof(d)-dl] = 0;
+//     result.append(d);
+// #else
     result.push_back(character);
-#endif
+// #endif
   }
 
   const int NB_BITS_COMPACT[] = {
