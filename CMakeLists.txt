@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 project(zxing)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 option(BUILD_TESTING "Enable generation of test targets" OFF)
 
 set(CMAKE_LIBRARY_PATH /opt/local/lib ${CMAKE_LIBRARY_PATH})

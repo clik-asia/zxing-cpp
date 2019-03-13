@@ -56,12 +56,12 @@ bool verbose = false;
 }
 
 vector<Ref<Result> > decode(Ref<BinaryBitmap> image, DecodeHints hints) {
-  Ref<Reader> reader(new MultiFormatReader);
+  Ref<Reader> reader(new QRCodeReader);
   return vector<Ref<Result> >(1, reader->decode(image, hints));
 }
 
 vector<Ref<Result> > decode_multi(Ref<BinaryBitmap> image, DecodeHints hints) {
-  MultiFormatReader delegate;
+  QRCodeReader delegate;
   GenericMultipleBarcodeReader reader(delegate);
   return reader.decodeMultiple(image, hints);
 }
@@ -81,6 +81,7 @@ int read_image(Ref<LuminanceSource> source, bool hybrid, string expected) {
     DecodeHints hints(DecodeHints::DEFAULT_HINT);
     hints.setTryHarder(try_harder);
     Ref<BinaryBitmap> binary(new BinaryBitmap(binarizer));
+    
     if (search_multi) {
       results = decode_multi(binary, hints);
     } else {
